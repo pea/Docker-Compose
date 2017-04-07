@@ -2,6 +2,12 @@
 
 Basic LAMP server with persistent database and html.
 
+# Setup
+
+- PHP 7
+- Apache 2
+- Mysql 5.7
+
 # Database
 
 Host: 127.0.0.1
