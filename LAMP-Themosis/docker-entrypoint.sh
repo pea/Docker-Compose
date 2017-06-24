@@ -16,8 +16,8 @@ if ! [ -e /var/www/html/htdocs/index.php ]; then
 		DB_USER = "wordpress"
 		DB_PASSWORD = "wordpress"
 		DB_HOST = "db:3306"
-		WP_HOME = "http://localhost/htdocs"
-		WP_SITEURL = "http://localhost/htdocs/cms"
+		WP_HOME = "http://localhost"
+		WP_SITEURL = "http://localhost/cms"
 	EOF
 
 	cat > /var/www/html/config/environment.php <<-'EOF'

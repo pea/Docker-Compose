@@ -32,6 +32,8 @@ RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
 
+RUN sed -i 's!/var/www/html!/var/www/html/htdocs!g' /etc/apache2/sites-enabled/000-default.conf
+
 COPY docker-entrypoint.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
