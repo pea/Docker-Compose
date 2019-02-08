@@ -1,6 +1,8 @@
 var express = require('express')
 var app = express()
 
+console.log(process.env.NODE_ENV)
+
 app.get('/', function (req, res) {
   res.send('🖖')
 })

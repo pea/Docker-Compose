@@ -32,6 +32,7 @@ services:
        WORDPRESS_DB_PASSWORD: wordpress
       #  Uncommend to enable SSL   
       #  VIRTUAL_HOST: mydomain.com
+      #  VIRTUAL_PORT: 3000
       #  LETSENCRYPT_HOST: mydomain.com
       #  LETSENCRYPT_EMAIL: my@email.com
 
@@ -41,8 +42,9 @@ services:
        - wordpress
        - api
      working_dir: /usr/src/app
+     environment:
+      NODE_ENV: development
     #  Uncommend to enable SSL
-    #  environment:   
     #  VIRTUAL_HOST: mydomain.com, www.mydomain.com
     #  VIRTUAL_PORT: 3000
     #  LETSENCRYPT_HOST: mydomain.com
@@ -63,8 +65,9 @@ services:
      links: 
        - wordpress
      working_dir: /usr/src/api
+     environment: 
+       NODE_ENV: development
     #  Uncommend to enable SSL
-    #  environment:   
     #  VIRTUAL_HOST: mydomain.com, www.mydomain.com
     #  VIRTUAL_PORT: 3001
     #  LETSENCRYPT_HOST: mydomain.com

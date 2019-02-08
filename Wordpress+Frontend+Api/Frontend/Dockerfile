@@ -1,5 +1,7 @@
 FROM node:8
 
+ENV ENV production
+
 EXPOSE 3000 8080 80
 
 RUN mkdir -p /usr/src/app
