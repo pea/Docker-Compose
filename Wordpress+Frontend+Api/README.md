@@ -20,6 +20,8 @@ Make sure the `wordpress` container isn't mapping port 80 by commenting it out. 
 
 Enable nginx-proxy and letsencrypt-nginx-proxy-companion containers in docker-compose.yaml but uncommenting them.
 
+*See Database section if using remote one.
+
 ```
 ports:
   - "80:80"
@@ -43,6 +45,9 @@ The WordPress and Node API can be accessed server-side at `http://wordpress/wp-j
 Next.js is prelaoded into the frontend container. To use another framework you can replace everything in Frontend except Dockerfile and docker-entrypoint.sh. docker-entrypoint.sh will be run inside the container and is where you'll build and start the app. Edit it if needed.
 
 NODE_ENV is set in the docker-compose.yaml file and is made available inside the container.
+
+## Database
+The WordPress database settings are only written to the wp-config.php file when you first run `docker-compose up`. If you need to change them (to a live remote database) you should update them in Wordpress/wordpress/wp-config.php.
 
 ## Docker Commands
 Some handy docker commands.
