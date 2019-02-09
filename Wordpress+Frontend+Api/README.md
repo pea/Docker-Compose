@@ -53,7 +53,7 @@ docker exec -it `CONTAINER_NAME` /bin/bash
 ### Remove all containers
 docker rm -f $(docker ps -q)
 
-### Remove all of your networks
+### Remove all networks
 docker network rm $(docker network ls -q)
 
 ### Prune
