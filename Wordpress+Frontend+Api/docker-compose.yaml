@@ -9,10 +9,10 @@ services:
       - "./.data/db:/var/lib/mysql"
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD: wordpress
-      - MYSQL_DATABASE: wordpress
-      - MYSQL_USER: wordpress
-      - MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
 
   wordpress:
     image: "bitnami/wordpress:latest"
@@ -28,14 +28,14 @@ services:
       - db
     restart: always
     environment:
-      - MARIADB_HOST=db
-      - MARIADB_PORT_NUMBER=3306
-      - WORDPRESS_DATABASE_USER=wordpress
-      - WORDPRESS_DATABASE_NAME=wordpress
-      - WORDPRESS_DATABASE_PASSWORD=wordpress
-      - VIRTUAL_HOST=wordpress.peabay.xyz
-      - LETSENCRYPT_HOST=wordpress.peabay.xyz
-      - LETSENCRYPT_EMAIL=hi@peabay.xyz
+      MARIADB_HOST: db
+      MARIADB_PORT_NUMBER: 3306
+      WORDPRESS_DATABASE_USER: wordpress
+      WORDPRESS_DATABASE_NAME: wordpress
+      WORDPRESS_DATABASE_PASSWORD: wordpress
+      VIRTUAL_HOST: wordpress.peabay.xyz
+      LETSENCRYPT_HOST: wordpress.peabay.xyz
+      LETSENCRYPT_EMAIL: hi@peabay.xyz
 
   frontend:
     build: ./Frontend
@@ -44,11 +44,11 @@ services:
       - api
     working_dir: /usr/src/app
     environment:
-      - NODE_ENV: development
-      - VIRTUAL_HOST: wordpress-frontend.peabay.xyz
-      - VIRTUAL_PORT: 3000
-      - LETSENCRYPT_HOST: wordpress-frontend.peabay.xyz
-      - LETSENCRYPT_EMAIL: hi@peabay.xyz
+      NODE_ENV: development
+      VIRTUAL_HOST: wordpress-frontend.peabay.xyz
+      VIRTUAL_PORT: 3000
+      LETSENCRYPT_HOST: wordpress-frontend.peabay.xyz
+      LETSENCRYPT_EMAIL: hi@peabay.xyz
     volumes:
       - ./Frontend:/usr/src/app
       - /usr/src/app/node_modules/
@@ -66,11 +66,11 @@ services:
       - wordpress
     working_dir: /usr/src/api
     environment:
-      - NODE_ENV: development
-      - VIRTUAL_HOST: wordpress-api.peabay.xyz
-      - VIRTUAL_PORT: 3001
-      - LETSENCRYPT_HOST: wordpress-api.peabay.xyz
-      - LETSENCRYPT_EMAIL: hi@peabay.xyz
+      NODE_ENV: development
+      VIRTUAL_HOST: wordpress-api.peabay.xyz
+      VIRTUAL_PORT: 3001
+      LETSENCRYPT_HOST: wordpress-api.peabay.xyz
+      LETSENCRYPT_EMAIL: hi@peabay.xyz
     volumes:
       - ./Api:/usr/src/api
       - /usr/src/api/node_modules/
