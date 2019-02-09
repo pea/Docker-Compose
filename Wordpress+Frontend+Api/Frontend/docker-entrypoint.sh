@@ -1,1 +1,1 @@
-npm run build && NODE_ENV=$ENV node server.js
+npm run build && NODE_ENV=$NODE_ENV node server.js

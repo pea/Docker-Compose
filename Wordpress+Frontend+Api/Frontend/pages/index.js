@@ -14,9 +14,15 @@ export class Index extends React.Component {
   render () {
     return (
       <>
-        👍🏻
-        <div dangerouslySetInnerHTML={{__html: JSON.stringify(this.props.api)}} />
-        <div dangerouslySetInnerHTML={{__html: JSON.stringify(this.props.wordpress)}} />
+        <h3>Response from Node API</h3>
+        <div dangerouslySetInnerHTML={{
+          __html: JSON.stringify(this.props.api)
+        }} />
+
+        <h3>Response from WordPress API</h3>
+        <pre dangerouslySetInnerHTML={{
+          __html: JSON.stringify(this.props.wordpress, null, 2)
+        }} />
       </>
     )
   }

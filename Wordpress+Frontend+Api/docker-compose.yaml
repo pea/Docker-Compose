@@ -1,99 +1,100 @@
 version: "2.3"
 
 services:
-   db:
-     image: mysql:5.7
-     ports:
-       - "3306:3306"
-     volumes:
-       - "./.data/db:/var/lib/mysql"
-     restart: always
-     environment:
-       MYSQL_ROOT_PASSWORD: wordpress
-       MYSQL_DATABASE: wordpress
-       MYSQL_USER: wordpress
-       MYSQL_PASSWORD: wordpress
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
 
-   wordpress:
-     depends_on:
-       - db
-     image: wordpress:latest
-     volumes:
-       - ./Wordpress/:/var/www/html
-       - ./php-uploads.ini:/usr/local/etc/php/conf.d/php-uploads.ini
-     links:
-       - db
-     restart: always
-     # Comment-out ports when using SSL
-     ports:
-       - "80:80"
-     environment:
-       WORDPRESS_DB_HOST: db:3306
-       WORDPRESS_DB_PASSWORD: wordpress
-      #  Uncommend to enable SSL   
-      #  VIRTUAL_HOST: mydomain.com
-      #  VIRTUAL_PORT: 3000
-      #  LETSENCRYPT_HOST: mydomain.com
-      #  LETSENCRYPT_EMAIL: my@email.com
+  wordpress:
+    image: "bitnami/wordpress:latest"
+    labels:
+      kompose.service.type: nodeport
+    # Map port 80:80 if not using SSL. Otherwise no ports
+    # should be mapped for nginx-proxy to work
+    ports:
+      - "80:80"
+    volumes:
+      - ./Wordpress/:/bitnami
+    depends_on:
+      - db
+    restart: always
+    environment:
+      - MARIADB_HOST=db
+      - MARIADB_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=wordpress
+      - WORDPRESS_DATABASE_NAME=wordpress
+      - WORDPRESS_DATABASE_PASSWORD=wordpress
+      # Uncomment when using SSL
+      # - VIRTUAL_HOST=
+      # - LETSENCRYPT_HOST=
+      # - LETSENCRYPT_EMAIL=
 
-   frontend:
-     build: ./Frontend
-     links: 
-       - wordpress
-       - api
-     working_dir: /usr/src/app
-     environment:
+  frontend:
+    build: ./Frontend
+    links:
+      - wordpress
+      - api
+    working_dir: /usr/src/app
+    environment:
       NODE_ENV: development
-    #  Uncommend to enable SSL
-    #  VIRTUAL_HOST: mydomain.com, www.mydomain.com
-    #  VIRTUAL_PORT: 3000
-    #  LETSENCRYPT_HOST: mydomain.com
-    #  LETSENCRYPT_EMAIL: my@email.com
-     volumes:
-       - ./Frontend:/usr/src/app
-       - /usr/src/app/node_modules/
-     restart: always
-     ports:
-       - "3000:3000"
-     expose:
-       - "3000"
-       - "443"
+      # Uncomment when using SSL
+      # VIRTUAL_HOST: wordpress-frontend.peabay.xyz
+      # VIRTUAL_PORT: 3000
+      # LETSENCRYPT_HOST: wordpress-frontend.peabay.xyz
+      # LETSENCRYPT_EMAIL: hi@peabay.xyz
+    volumes:
+      - ./Frontend:/usr/src/app
+      - /usr/src/app/node_modules/
+    restart: always
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+      - "443"
 
-   api:
-     build: ./Api
-     user: "node"
-     links: 
-       - wordpress
-     working_dir: /usr/src/api
-     environment: 
-       NODE_ENV: development
-    #  Uncommend to enable SSL
-    #  VIRTUAL_HOST: mydomain.com, www.mydomain.com
-    #  VIRTUAL_PORT: 3001
-    #  LETSENCRYPT_HOST: mydomain.com
-    #  LETSENCRYPT_EMAIL: my@email.com
-     volumes:
-       - ./Api:/usr/src/api
-       - /usr/src/api/node_modules/
-     restart: always
-     ports:
-       - "3001:3001"
-
-  #  Uncommend to enable SSL
-  #  nginx-proxy:
-  #    image: jwilder/nginx-proxy
-  #    ports:
-  #      - "80:80"
-  #      - "443:443"
-  #    volumes:
-  #      - "/etc/nginx/vhost.d"
-  #      - "/usr/share/nginx/html"
-  #      - "/var/run/docker.sock:/tmp/docker.sock:ro"
-  #      - "/etc/nginx/certs"
-
-  #  letsencrypt-nginx-proxy-companion:
-  #    image: jrcs/letsencrypt-nginx-proxy-companion
-  #    volumes:
-  #      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-  #    volumes_from:
-  #      - "nginx-proxy"
+  api:
+    build: ./Api
+    user: "node"
+    links:
+      - wordpress
+    working_dir: /usr/src/api
+    environment:
+      NODE_ENV: development
+      # Uncomment when using SSL
+      # VIRTUAL_HOST: wordpress-api.peabay.xyz
+      # VIRTUAL_PORT: 3001
+      # LETSENCRYPT_HOST: wordpress-api.peabay.xyz
+      # LETSENCRYPT_EMAIL: hi@peabay.xyz
+    volumes:
+      - ./Api:/usr/src/api
+      - /usr/src/api/node_modules/
+    restart: always
+    ports:
+      - "3001:3001"
+  
+  # Uncomment when using SSL
+  # nginx-proxy:
+  #   image: jwilder/nginx-proxy
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - "/etc/nginx/vhost.d"
+  #     - "/usr/share/nginx/html"
+  #     - "/var/run/docker.sock:/tmp/docker.sock:ro"
+  #     - "/etc/nginx/certs"
+  # letsencrypt-nginx-proxy-companion:
+  #   image: jrcs/letsencrypt-nginx-proxy-companion
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #   volumes_from:
+  #     - "nginx-proxy"
