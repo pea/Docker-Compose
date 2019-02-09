@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "wordpress-react",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "build": "next build",
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "es6-promise": "^4.2.5",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^7.0.2",
+    "next-redux-saga": "^3.0.0",
+    "next-redux-wrapper": "^2.0.0",
+    "next-routes": "^1.4.2",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-redux": "^5.1.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.7",
+    "redux-saga": "^0.16.2",
+    "redux-thunk": "^2.3.0",
+    "sanitize-html-react": "^1.13.0"
+  },
+  "devDependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "express": "^4.16.4",
+    "node-sass": "^4.11.0",
+    "raw-loader": "^1.0.0",
+    "react-burgers": "^1.1.1",
+    "react-svg-inline": "^2.1.1",
+    "svg-inline-react": "^3.1.0"
+  }
+}
